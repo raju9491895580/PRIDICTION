@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon Tiger Predictor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+        input {
+            margin: 5px;
+            padding: 8px;
+            width: 80px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Dragon Tiger Predictor</h2>
+        <p>Enter the last 6 outcomes (D/T):</p>
+        <input type="text" id="outcome1" placeholder="Round 1">
+        <input type="text" id="outcome2" placeholder="Round 2">
+        <input type="text" id="outcome3" placeholder="Round 3">
+        <input type="text" id="outcome4" placeholder="Round 4">
+        <input type="text" id="outcome5" placeholder="Round 5">
+        <input type="text" id="outcome6" placeholder="Round 6">
+        <br>
+        <button onclick="predictOutcome()">Predict</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function predictOutcome() {
+            let outcomes = [];
+            for (let i = 1; i <= 6; i++) {
+                let value = document.getElementById('outcome' + i).value.trim().toUpperCase();
+                if (value !== "D" && value !== "T") {
+                    alert("Please enter only 'D' for Dragon or 'T' for Tiger");
+                    return;
+                }
+                outcomes.push(value);
+            }
+            
+            let dragonCount = outcomes.filter(o => o === "D").length;
+            let tigerCount = outcomes.filter(o => o === "T").length;
+            
+            let nextPrediction = (dragonCount > tigerCount) ? "T" : "D";
+            document.getElementById("result").innerText = "Predicted Next Round: " + nextPrediction;
+        }
+    </script>
+</body>
+</html>
