@@ -8,34 +8,50 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
+            background: linear-gradient(to right, #ffcc00, #ff6600);
+            padding: 50px;
+            color: white;
         }
         .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             display: inline-block;
+            max-width: 400px;
+            width: 100%;
+        }
+        h2 {
+            color: #ff6600;
         }
         input {
-            margin: 5px;
-            padding: 8px;
+            margin: 10px;
+            padding: 10px;
             width: 80px;
+            border: 2px solid #ff6600;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
         }
         button {
-            margin-top: 10px;
-            padding: 10px 20px;
+            margin-top: 15px;
+            padding: 12px 25px;
             cursor: pointer;
-            background: #007BFF;
+            background: #ff6600;
             color: white;
             border: none;
             border-radius: 5px;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #cc5500;
         }
         #result {
             margin-top: 20px;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
+            color: #333;
         }
     </style>
 </head>
@@ -49,6 +65,12 @@
         <input type="text" id="outcome4" placeholder="Round 4">
         <input type="text" id="outcome5" placeholder="Round 5">
         <input type="text" id="outcome6" placeholder="Round 6">
+       <input type="text" id="outcome1" placeholder="Round 7">
+        <input type="text" id="outcome2" placeholder="Round 8">
+        <input type="text" id="outcome3" placeholder="Round 9">
+        <input type="text" id="outcome4" placeholder="Round 10">
+        <input type="text" id="outcome5" placeholder="Round 11">
+        <input type="text" id="outcome6" placeholder="Round 12">
         <br>
         <button onclick="predictOutcome()">Predict</button>
         <p id="result"></p>
@@ -68,8 +90,20 @@
             
             let dragonCount = outcomes.filter(o => o === "D").length;
             let tigerCount = outcomes.filter(o => o === "T").length;
+            let lastThree = outcomes.slice(-3).join("");
+            let nextPrediction = "";
+
+            // Predict based on streaks
+            if (lastThree === "DDD") {
+                nextPrediction = "T"; // Switch after a long streak
+            } else if (lastThree === "TTT") {
+                nextPrediction = "D";
+            } else if (lastThree === "DTD" || lastThree === "TDT") {
+                nextPrediction = outcomes[5]; // Continue the alternating pattern
+            } else {
+                nextPrediction = (dragonCount > tigerCount) ? "T" : "D";
+            }
             
-            let nextPrediction = (dragonCount > tigerCount) ? "T" : "D";
             document.getElementById("result").innerText = "Predicted Next Round: " + nextPrediction;
         }
     </script>
